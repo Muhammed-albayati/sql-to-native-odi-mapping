@@ -145,7 +145,7 @@ class RestrictedSqlParser {
         }
         if (whereText) {
             if (keyword(whereText,'OR')>=0) throw new IllegalArgumentException('OR not supported')
-            def matcher = (maskStrings(whereText) =~ '(?i)\\s+AND\\s+')
+            def matcher = (maskStrings(whereText) =~ '(?i)\\bAND\\b')
             int start=0
             List clauses=[]
             while (matcher.find()) { clauses << whereText.substring(start,matcher.start()); start=matcher.end() }
