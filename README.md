@@ -76,6 +76,12 @@ The solution uses ODI SDK capabilities including:
 
 These are **API references**, not a reproduction of the production implementation. See [ODI SDK usage](docs/sdk-usage.md) for how these APIs fit into the approach.
 
+## OOP architecture showcase
+
+A small, **non-production OOP design example** is available under [examples/oop-showcase](examples/oop-showcase/README.md), with the rationale in [OOP design](docs/oop-design.md).
+
+It illustrates a mapping-plan model, dependency validation, a component-adapter interface, and orchestration through separate Groovy classes. Its console adapter only prints synthetic graph descriptors; **it does not parse SQL, connect to ODI, generate native mappings, or perform data loads**. This proposed separation has not been adopted or tested in the production worker presented here. The complete generator remains private.
+
 ## SQL structures covered
 
 The implementation includes support for important SQL shapes such as:
@@ -114,8 +120,8 @@ All source and target objects in the example are placeholders; the example is **
 
 ## Scope of this repository
 
-Included: project overview, architecture explanation, ODI SDK API inventory, supported-feature boundaries, a synthetic SQL example, and a conceptual illustration.
+Included: project overview, architecture explanation, ODI SDK API inventory, supported-feature boundaries, a synthetic SQL example, a conceptual illustration, and an ODI-independent OOP architecture demonstration.
 
 Not included: the complete SQL parser, CTE dependency/isolation algorithms, repository-specific rules, queue worker, production Groovy generator, or any connection details.
 
-**This is a documentation-only technical showcase, not a plug-and-play tool or a claim that every SQL query can be automatically converted without validation.**
+**This is a technical showcase with a standalone illustrative OOP demo, not a downloadable SQL-to-ODI generator or a claim that every SQL query can be automatically converted without validation.**
