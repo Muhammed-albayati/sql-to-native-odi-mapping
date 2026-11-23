@@ -2,7 +2,7 @@
 
 **Experimental developer starter — not the production generator.** This folder contains a restricted Groovy SQL parser and a concrete Oracle Data Integrator 12c SDK adapter. It is intended to make the first version of a SQL-to-native-ODI generator easier to build, rather than merely describe an architecture.
 
-**Runtime status:** The code is published as a reference implementation. Neither the parser test suite nor the ODI adapter has been executed or validated in the author's ODI environment for this release. **Do not run this against production ODI repositories.**
+**Runtime status:** The offline parser contracts have passed on GitHub Actions using **Groovy 4 / Java 17** (2 supported cases and 6 rejection cases). The target ODI 12c environment may use an older Groovy version, and **the ODI SDK adapter has not been integration-tested in ODI**. **Do not run this against production ODI repositories.**
 
 ## Features and boundaries
 
@@ -28,14 +28,14 @@ The root repository documents the much broader *private* engine. Its supported f
 - [ODI SDK adapter](odi/OdiSdkAdapter.groovy) — metadata lookup, native mapping component graph, target expression binding, physical design, transaction.
 - [Configuration and entrypoint](odi/EntryPoint.groovy) — synthetic sample names and SQL; \`writeEnabled: false\` initially.
 - [Single-file Groovy Procedure](dist/SqlToOdiStarter.groovy) — generated from the modules above; **this is the easiest entry point for ODI users**.
-- [Parser contracts](tests/ParserContractTest.groovy) — positive and rejection cases.
+- [Parser contracts](tests/ParserContractTest.groovy) — positive and rejection cases; [CI results](https://github.com/Muhammed-albayati/sql-to-native-odi-mapping/actions/workflows/starter-parser.yml).
 - [Example SELECT](examples/simple_select.sql) and [INNER JOIN](examples/inner_join.sql).
 - [Build script](build_odi_procedure.py) — assembles the Groovy Procedure from the OOP modules without dependencies.
 
 ## Try it step by step
 
 1. **Use an isolated ODI 12c development environment** with a disposable project, folder, context, source models and target datastore. Never test this against existing production mappings.
-2. To inspect parser behavior without ODI, from \`starter-kit/\` run \`groovy tests/ParserContractTest.groovy\` with a compatible local Groovy installation. These tests are provided, **not claimed as passed**.
+2. To inspect parser behavior without ODI, from \`starter-kit/\` run \`groovy tests/ParserContractTest.groovy\` with a compatible local Groovy installation. The offline contracts pass in GitHub Actions on Groovy 4; this is **not** proof of compatibility with ODI's bundled Groovy or of SQL-to-ODI correctness.
 3. For ODI Procedure use, open [\`dist/SqlToOdiStarter.groovy\`](dist/SqlToOdiStarter.groovy), copy its complete contents into a Groovy-language ODI Procedure task.
 4. At the bottom of the Groovy script, edit \`starterConfig\` with actual **test** project, folder, model codes, context, mapping name and target datastore. Add a valid installed \`ikmName\` if needed by that physical target.
 5. Supply one of the supported SQL patterns in \`starterSql\`. Projection aliases must correspond to column names on the target datastore; source and target tables must already be reverse-engineered in ODI.
