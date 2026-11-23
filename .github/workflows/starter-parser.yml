@@ -1,0 +1,27 @@
+name: Starter-kit parser contracts
+
+on:
+  push:
+    paths:
+      - 'starter-kit/**'
+      - '.github/workflows/starter-parser.yml'
+  pull_request:
+    paths:
+      - 'starter-kit/**'
+      - '.github/workflows/starter-parser.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  parser:
+    runs-on: ubuntu-latest
+    container:
+      image: groovy:4.0-jdk17
+    defaults:
+      run:
+        working-directory: starter-kit
+    steps:
+      - uses: actions/checkout@v4
+      - name: Execute restricted parser tests (no ODI dependencies)
+        run: groovy tests/ParserContractTest.groovy
