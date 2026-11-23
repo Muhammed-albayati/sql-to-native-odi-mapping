@@ -128,12 +128,14 @@ class RestrictedSqlParser {
             plan.outputs << col
         }
         if (whereText) {
+            println('DEBUG WHERE=' + whereText.inspect())
             if (keyword(whereText,'OR')>=0) throw new IllegalArgumentException('OR not supported')
             def matcher = (maskStrings(whereText) =~ '(?i)\\s+AND\\s+')
             int start=0
             List clauses=[]
             while (matcher.find()) { clauses << whereText.substring(start,matcher.start()); start=matcher.end() }
             clauses << whereText.substring(start)
+            println('DEBUG clauses=' + clauses.inspect())
             clauses.each {
                 def c = parseCondition(it)
                 requireAlias(c.leftAlias,aliases)
