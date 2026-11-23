@@ -16,12 +16,7 @@ permissions:
 jobs:
   parser:
     runs-on: ubuntu-latest
-    container:
-      image: groovy:4.0-jdk17
-    defaults:
-      run:
-        working-directory: starter-kit
     steps:
       - uses: actions/checkout@v4
-      - name: Execute restricted parser tests (no ODI dependencies)
-        run: groovy tests/ParserContractTest.groovy
+      - name: Run offline Groovy parser contracts in isolated container
+        run: docker run --rm -v "$GITHUB_WORKSPACE:/work:ro" -w /work/starter-kit groovy:4.0-jdk17 groovy tests/ParserContractTest.groovy
