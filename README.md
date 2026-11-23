@@ -6,11 +6,19 @@ This repository documents an automation project I developed to reduce the manual
 
 The solution does **not** place the entire SQL query inside a single execution component. It analyzes the query structure and uses the ODI SDK to assemble native Datastore, Join, Filter, Expression, Aggregate, Distinct, and Set components, followed by target and physical-design configuration.
 
-> **Technical showcase — not a downloadable generator.** The production Groovy implementation, SQL parser, mapping graph-construction logic, request handling code, and environment-specific configuration are not published here. The diagrams and SQL examples use fictional objects and illustrate the approach rather than a portable ODI installation.
+> **Technical showcase + experimental starter kit — not the production generator.** The production Groovy implementation, advanced SQL parser, mapping graph-construction logic, request handling code, and environment-specific configuration are not published here. A separate, intentionally limited educational implementation appears in the [starter kit](starter-kit/README.md). The diagrams and SQL examples use fictional objects.
 
 ![Conceptual SQL-to-ODI automation overview](images/automation-overview.png)
 
 *Conceptual illustration based on a fictional SQL query and synthetic datastores; not a screenshot of a live ODI repository.*
+
+## Public starter kit (experimental)
+
+For developers who want to build their own SQL-to-native-ODI automation, I've added a [minimal Groovy starter kit](starter-kit/README.md) with a [restricted SELECT parser](starter-kit/core/RestrictedSqlParser.groovy), a [concrete ODI SDK adapter](starter-kit/odi/OdiSdkAdapter.groovy), [sample queries](starter-kit/examples/), parser contract tests, and a [single-file ODI Procedure script](starter-kit/dist/SqlToOdiStarter.groovy).
+
+**This is not the private production engine.** The starter covers only explicit columns, one source or one INNER JOIN, and simple WHERE predicates. It contains real ODI SDK construction calls but **has not been runtime-tested in an ODI environment**. Repository writes are disabled by default; use only a disposable development ODI setup after adapting configuration and validating the results.
+
+No open-source license has yet been assigned; public visibility alone does not grant permission to reuse the code.
 
 ## Why I built it
 
@@ -120,8 +128,8 @@ All source and target objects in the example are placeholders; the example is **
 
 ## Scope of this repository
 
-Included: project overview, architecture explanation, ODI SDK API inventory, supported-feature boundaries, a synthetic SQL example, a conceptual illustration, and an ODI-independent OOP architecture demonstration.
+Included: project overview, architecture, ODI SDK API inventory, supported-feature boundaries, fictional SQL, a conceptual illustration, the OOP demo, and an experimental public starter implementation.
 
 Not included: the complete SQL parser, CTE dependency/isolation algorithms, repository-specific rules, queue worker, production Groovy generator, or any connection details.
 
-**This is a technical showcase with a standalone illustrative OOP demo, not a downloadable SQL-to-ODI generator or a claim that every SQL query can be automatically converted without validation.**
+**The downloadable starter is not the tested production generator.** It is a limited source-code reference that requires ODI environment configuration and runtime validation; it makes no claim of converting arbitrary SQL.
